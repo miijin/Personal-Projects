@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <unistd.h>
 
-char answer[100];
+char answer[100] = "";
 
 struct message {
     char message[100];
@@ -17,7 +17,8 @@ struct message msg[] = {
     {"Por favor, digite um nome válido.\n"},
     {"Está preparado para começar nossa imersão? (S / N)\n"},
     {"Então vamos embarcar nessa jornada, espero que se divirta!"},
-    {"Você ainda não está preparado para nossa imersão? Em que podemos ajudar para sua progressão?"}
+    {"Você ainda não está preparado para nossa imersão? Em que podemos ajudar para sua progressão?\n"},
+    {"Aqui estão suas opções: \n1. Alterar meu nome\n2. Encerre a imersão\n"} // 7
 };
 
 int main() {
@@ -54,7 +55,12 @@ int main() {
         CaracterByCaracter(msg[5].message);
     }
     else {
+        memset(answer, 0, sizeof(answer));
         CaracterByCaracter(msg[6].message);
+        CaracterByCaracter(msg[7].message);
+        if (strcmp(answer, "1") == 0 || strcmp(answer, "Alterar meu nome") == 0) {
+            printf("OK!");
+        }
     }
 }
 
