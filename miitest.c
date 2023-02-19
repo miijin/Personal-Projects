@@ -14,21 +14,12 @@ int main() {
     char message2[] = "Por favor, informe seu nome para que possamos começar.\n";
     strcpy(message, message1);
     strcat(message, message2);
-
-    for (int i = 0; i < strlen(message); i++) {
-        printf("%c", message[i]);
-        fflush(stdout);
-        usleep(50000);
-    }
+    CaracterByCaracter(message);
 
     char name[100];
     while (1) {
         char askName[] = "Digite seu nome: ";
-        for (int i = 0; i < strlen(askName); i++) {
-            printf("%c", askName[i]);
-            fflush(stdout);
-            usleep(50000);
-        }
+        CaracterByCaracter(askName);
         scanf("%s", name);
 
         int validName = 1;
@@ -56,6 +47,10 @@ int main() {
     }
 }
 
-void CaracterByCaracter(char mensage[]) {
-    
+void CaracterByCaracter(char message[]) {
+    for (int i = 0; i < strlen(message); i++) {
+        printf("%c", message[i]);
+        fflush(stdout);
+        usleep(50000);
+    }
 }
