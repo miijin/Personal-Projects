@@ -6,26 +6,35 @@
 
 char answer[100];
 
+struct message {
+    char message[100];
+};
+
+struct message msg[] = {
+    {"Olá! Seja bem-vindo(a) a minha interação!\n"},
+    {"Por favor, informe seu nome para que possamos começar.\n"},
+    {"Digite seu nome: "},
+    {"Por favor, digite um nome válido.\n"},
+    {"Está preparado para começar nossa imersão? (S / N)\n"},
+    {"Então vamos embarcar nessa jornada, espero que se divirta!"},
+    {"Você ainda não está preparado para nossa imersão? Em que podemos ajudar para sua progressão?"}
+};
+
 int main() {
     system("cls");
     //Apresentação da interação.
-    char message[100];
-    char message1[] = "Olá! Seja bem-vindo(a) a minha interação!\n";
-    char message2[] = "Por favor, informe seu nome para que possamos começar.\n";
-    strcpy(message, message1);
-    strcat(message, message2);
-    CaracterByCaracter(message);
+    CaracterByCaracter(msg[0].message);
+    CaracterByCaracter(msg[1].message);
 
     char name[100];
     while (1) {
-        char askName[] = "Digite seu nome: ";
-        CaracterByCaracter(askName);
-        scanf("%s", name);
+        CaracterByCaracter(msg[2].message);
+        scanf("%99s", name);
 
         int validName = 1;
         for (int i = 0; i < strlen(name); i++) {
-            if (ispunct(name[i]) || isdigit(name[i])) {
-                printf("Por favor, digite um nome válido.\n");
+            if (!isalpha(name[i])) {
+                CaracterByCaracter(msg[3].message);
                 validName = 0;
                 break;
             }
@@ -35,15 +44,17 @@ int main() {
         }
     }
     // Iniciando a interação.
-    printf("Olá, %s! ", name);
-    printf("Está preparado para começar a nossa imersão?(S / N)\n");
-    scanf("%s", answer);
+    char greeting[100];
+    sprintf(greeting,"Olá, %s! ", name);
+    CaracterByCaracter(greeting);
+    CaracterByCaracter(msg[4].message);
+    scanf("%99s", answer);
 
     if (strcasecmp(answer, "sim") == 0 || strcasecmp(answer, "s") == 0) {
-        printf("Então vamos embarcar nessa jornada, espero que se divirta!");
+        CaracterByCaracter(msg[5].message);
     }
     else {
-        printf("ERROR!");
+        CaracterByCaracter(msg[6].message);
     }
 }
 
