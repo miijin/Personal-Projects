@@ -4,22 +4,58 @@
 #include <ctype.h>
 #include <unistd.h>
 
+char answer[100];
+
 int main() {
-    printf("Olá! Seja bem-vindo(a) a minha interação!\n");
-    //sleep(1);
-    printf("Por favor, informe seu nome para que possamos começar.\n");
-    //sleep(1);
+    system("cls");
+    //Apresentação da interação.
+    char message[100];
+    char message1[] = "Olá! Seja bem-vindo(a) a minha interação!\n";
+    char message2[] = "Por favor, informe seu nome para que possamos começar.\n";
+    strcpy(message, message1);
+    strcat(message, message2);
+
+    for (int i = 0; i < strlen(message); i++) {
+        printf("%c", message[i]);
+        fflush(stdout);
+        usleep(50000);
+    }
 
     char name[100];
-    int nameLength = strlen(name);
-    printf("Digite seu nome: ");
-    scanf("%s", name);
+    while (1) {
+        char askName[] = "Digite seu nome: ";
+        for (int i = 0; i < strlen(askName); i++) {
+            printf("%c", askName[i]);
+            fflush(stdout);
+            usleep(50000);
+        }
+        scanf("%s", name);
 
-    for (int i = 0; i < nameLength; i++) {
-        if (ispunct(name[i]) || isdigit(name[i]) || !isspace(name[i])){
-            printf("Por favor, digite um nome válido.\n");
-            return 1;
+        int validName = 1;
+        for (int i = 0; i < strlen(name); i++) {
+            if (ispunct(name[i]) || isdigit(name[i])) {
+                printf("Por favor, digite um nome válido.\n");
+                validName = 0;
+                break;
+            }
+        }
+        if (validName == 1) {
+            break;
         }
     }
-    printf("Olá, %s!", name);
+    // Iniciando a interação.
+    printf("Olá, %s! ", name);
+    printf("Está preparado para começar a nossa imersão?(S / N)\n");
+    scanf("%s", answer);
+
+    if (strcasecmp(answer, "sim") == 0 || strcasecmp(answer, "s") == 0) {
+        printf("Então vamos embarcar nessa jornada, espero que se divirta!");
+    }
+    else {
+        printf("ERROR!");
+    }
+}
+
+void CaracterByCaracter(char mensage[]) {
+    
 }
