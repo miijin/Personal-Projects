@@ -27,26 +27,11 @@ int main() {
     CaracterByCaracter(msg[0].message);
     CaracterByCaracter(msg[1].message);
 
-    char name[100];
-    while (1) {
-        CaracterByCaracter(msg[2].message);
-        scanf("%99s", name);
-
-        int validName = 1;
-        for (int i = 0; i < strlen(name); i++) {
-            if (!isalpha(name[i])) {
-                CaracterByCaracter(msg[3].message);
-                validName = 0;
-                break;
-            }
-        }
-        if (validName == 1) {
-            break;
-        }
-    }
+    char displayName[100];
+    nameAndRename(displayName);
     // Iniciando a interação.
     char greeting[100];
-    sprintf(greeting,"Olá, %s! ", name);
+    sprintf(greeting,"Olá, %s! ", displayName);
     CaracterByCaracter(greeting);
     CaracterByCaracter(msg[4].message);
     scanf("%99s", answer);
@@ -58,8 +43,10 @@ int main() {
         memset(answer, 0, sizeof(answer));
         CaracterByCaracter(msg[6].message);
         CaracterByCaracter(msg[7].message);
-        if (strcmp(answer, "1") == 0 || strcmp(answer, "Alterar meu nome") == 0) {
-            printf("OK!");
+        scanf("%99s", answer);
+        if (strcmp(answer, "1") == 0) {
+            memset(displayName, 0, sizeof(displayName));
+            nameAndRename(displayName);
         }
     }
 }
@@ -68,6 +55,24 @@ void CaracterByCaracter(char message[]) {
     for (int i = 0; i < strlen(message); i++) {
         printf("%c", message[i]);
         fflush(stdout);
-        usleep(50000);
+        usleep(0);
+    }
+}
+
+void nameAndRename(char *name) {
+    while (1) {
+        CaracterByCaracter(msg[2].message);
+        scanf("%99s", name);
+        int validName = 1;
+        for (int i = 0; i < strlen(name); i++) {
+            if (!isalpha(name[i])) {
+                CaracterByCaracter(msg[3].message);
+                validName = 0;
+                break;
+            }
+        }
+        if (validName == 1) {
+            break;
+        }
     }
 }
