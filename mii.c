@@ -102,15 +102,15 @@ int main() {
             break;
         }
     }
-    //sleep(1);
-    //system("cls");
+    sleep(1);
+    system("cls");
 }
 
 void CaracterByCaracter(char message[]) {
     for (int i = 0; i < strlen(message); i++) {
         printf("%c", message[i]);
         fflush(stdout);
-        usleep(0000);
+        usleep(50000);
     }
 }
 
