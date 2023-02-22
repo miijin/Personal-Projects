@@ -18,7 +18,7 @@ struct message msg[] = {
     {"Por favor, digite um nome válido.\n"}, // 3
     {"Está preparado para começar nossa imersão? (S / N)\n"}, // 4
     {"Então vamos embarcar nessa jornada, espero que se divirta!"}, // 5
-    {"Você ainda não está preparado para nossa imersão? Em que podemos ajudar para sua progressão?\n"},
+    {"Você ainda não está preparado para nossa imersão? Em que podemos ajudar para sua progressão?\n"}, // 6
     {"Aqui estão suas opções: \n1. Alterar meu nome\n2. Encerre a imersão\n"}, // 7
     {"Você deseja encerrar a interação? Tudo bem, te vejo na próxima!"}, // 8
     {"OK! Tudo pronto para começar nossa interação! Vamos começar..."} // 9
@@ -102,6 +102,7 @@ int main() {
             break;
         }
     }
+    // Encerrando a apresentação
     sleep(1);
     system("cls");
 }
