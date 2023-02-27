@@ -25,15 +25,18 @@ struct message msg[] = {
     {"OK! Tudo pronto para começar nossa interação! Vamos começar!"}, // 9
     {"Esse projeto foi criado no intuito de proporcionar uma experiência interativa ao usuário.\n"}, // 10
     {"O desenvolvedor desse projeto sou eu, \033[1;33mKennedy Miyake\033[0m.\nEsse é meu primeiro grande projeto, com base em todos meus aprendizados em programação.\n"}, // 11
-    {"Estou focando ao máximo pela melhor experiência do usuário.\nEspero que realmente goste e aproveite a minha interação!\n"} //12
+    {"Estou focando ao máximo pela melhor experiência do usuário.\nEspero que realmente goste e aproveite a minha interação!\n"}, //12
+    {"Bem, vamos começar primeiramente fazendo algumas personalização para seu painel.\n"}, // 13
+    {"O que você você quer personalizar primeiro?\n1. Alterar a cor do nome\n2. Mudar a borda\n3. O que são essas configurações?\n"}, // 14
+    {"Essas primeiras personalizações são para que o usuário se sinta na liberdade de ter o painel ao seu gosto pessoal.\n"}, // 15
+    {"A primeira personalização é de nome, onde você poderá alterar a cor do seu nome para que seja exibido de forma mais clara para o usuário e diferenciar das demais falas.\n"}, //16
+    {"A segunda personalização é de borda, onde o usuário poderá alterar a a borda e as cores do seu painel, onde será exibido após a configuração.\n"} //17
 };
 
 int main() {
     system("cls");
-
     // Iniciando a apresentação
-    CaracterByCaracter(msg[0].message);
-    CaracterByCaracter(msg[1].message);
+    CBC(2, msg);
 
     // Usuário define seu nome de exibição.
     char displayName[100];
@@ -42,7 +45,7 @@ int main() {
     char greeting[100];
     sprintf(greeting,"Olá, %s! ", displayName);
     CaracterByCaracter(greeting);
-    CaracterByCaracter(msg[4].message);
+    CBC(1, &msg[4]);
 
     while (1) {
         printf("%s: ", displayName);
@@ -51,14 +54,14 @@ int main() {
 
         // Alternativas escolhidas pelo usuário.
         if (strcasecmp(answer, "sim") == 0 || strcasecmp(answer, "s") == 0) {
-            CaracterByCaracter(msg[5].message);
+            clear();
+            CBC(1, &msg[5]);
             break;
         }
         else if (strcasecmp(answer, "não") == 0 || strcasecmp(answer, "n") == 0) {
             clear();
             memset(answer, 0, sizeof(answer));
-            CaracterByCaracter(msg[6].message);
-            CaracterByCaracter(msg[7].message);
+            CBC(2, &msg[6]);
             while (1) {
                 validAnswer = 1;
                 printf("%s: ", displayName);
@@ -79,13 +82,13 @@ int main() {
                         scanf("%99s", answer);
                         if (strcasecmp(answer, "1") == 0) {
                             clear();
-                            CaracterByCaracter(msg[9].message);
+                            CBC(1, &msg[9]);
                             break;
                         }
                         else if (strcasecmp(answer, "2") == 0) {
                             clear();
                             nameAndRename(displayName);
-                            CaracterByCaracter(msg[9].message);
+                            CBC(1, &msg[9]);
                             break;
                         }
                         else {
@@ -99,7 +102,7 @@ int main() {
                 }
                 else if (strcmp(answer, "2") == 0) {
                     clear();
-                    CaracterByCaracter(msg[8].message);
+                    CBC(1, &msg[8]);
                     clear();
                     return 1;
                 }
@@ -124,7 +127,6 @@ int main() {
     // Encerrando a apresentação
     clear();
     waitingMoment();
-    clear();
 
     // Apresentando a interação
     char introducing[100];
@@ -132,23 +134,50 @@ int main() {
     CaracterByCaracter(introducing);
     sleep(1);
     clear();
-    CaracterByCaracter(msg[10].message);
-    CaracterByCaracter(msg[11].message);
-    CaracterByCaracter(msg[12].message);
+    CBC(3, &msg[10]);
     sleep(1);
     // Encerrando a apresentação da interação
     clear();
     waitingMoment();
-    clear();
 
-    // Painel principal
-    
+    // Painel principal (config)
+    CBC(2, &msg[13]);
+    printf("%s: ", displayName);
+    scanf("%s", answer);
+    if (strcmp(answer, "1") == 0) {
+        // Alterar nome
+        clear();
+    }
+    if (strcmp(answer, "2") == 0) {
+        // Alterar borda
+        clear();
+    }
+    if (strcmp(answer, "3") == 0) {
+        // Sobre as personalizações
+        clear();
+        CBC(3, &msg[15]);
+    }
 }
 
 // Funções adicionadas
 void CaracterByCaracter(char message[]) {
     for (int i = 0; i < strlen(message); i++) {
         printf("%c", message[i]);
+        fflush(stdout);
+        usleep(50000);
+    }
+}
+
+void CBC(int indexMSG, struct message messageMSG[]) {
+    char compactMSG[1000];
+    memset(compactMSG, 0, sizeof(compactMSG));
+
+    for (int i = 0; i < indexMSG; i++) {
+        strcat(compactMSG, messageMSG[i].message);
+    }
+    // CaracterByCaracter Integrado
+    for (int j = 0; j < strlen(compactMSG); j++) {
+        printf("%c", compactMSG[j]);
         fflush(stdout);
         usleep(50000);
     }
@@ -185,12 +214,13 @@ void waitingMoment() {
         dots++;
         if (dots == 3) {
             dots = 0;
-            printf("\rCarregando   ");
+            printf("\r%s   ", waiting);
             fflush(stdout);
             usleep(250000);
-            printf("\rCarregando");
+            printf("\r%s", waiting);
         }
     }
+    clear();
 }
 
 void clear() {
