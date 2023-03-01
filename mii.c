@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <ncurses.h>
 
 // Variáveis Globais
 char answer[100] = "";
@@ -33,133 +34,7 @@ struct message msg[] = {
     {"A segunda personalização é de borda, onde o usuário poderá alterar a a borda e as cores do seu painel, onde será exibido após a configuração.\n"} //17
 };
 
-int main() {
-    system("cls");
-    // Iniciando a apresentação
-    CBC(2, msg);
-
-    // Usuário define seu nome de exibição.
-    char displayName[100];
-    nameAndRename(displayName);
-    clear();
-    char greeting[100];
-    sprintf(greeting,"Olá, %s! ", displayName);
-    CaracterByCaracter(greeting);
-    CBC(1, &msg[4]);
-
-    while (1) {
-        printf("%s: ", displayName);
-        scanf("%99s", answer);
-        validAnswer = 1;
-
-        // Alternativas escolhidas pelo usuário.
-        if (strcasecmp(answer, "sim") == 0 || strcasecmp(answer, "s") == 0) {
-            clear();
-            CBC(1, &msg[5]);
-            break;
-        }
-        else if (strcasecmp(answer, "não") == 0 || strcasecmp(answer, "n") == 0) {
-            clear();
-            memset(answer, 0, sizeof(answer));
-            CBC(2, &msg[6]);
-            while (1) {
-                validAnswer = 1;
-                printf("%s: ", displayName);
-                scanf("%99s", answer);
-
-                // Usuário redefinindo seu nome de exibição.
-                if (strcmp(answer, "1") == 0) {
-                    clear();
-                    nameAndRename(displayName);
-                    clear();
-                    char resetName[100];
-                    sprintf(resetName, "Você redefiniu seu nome para \"%s\".\nDeseja continuar ou redefinir novamente?\n1. Continuar\n2. Redefinir novamente\n", displayName);
-                    CaracterByCaracter(resetName);
-                    memset(answer, 0, sizeof(answer));
-                    while (1) {
-                        validAnswer = 1;
-                        printf("%s: ", displayName);
-                        scanf("%99s", answer);
-                        if (strcasecmp(answer, "1") == 0) {
-                            clear();
-                            CBC(1, &msg[9]);
-                            break;
-                        }
-                        else if (strcasecmp(answer, "2") == 0) {
-                            clear();
-                            nameAndRename(displayName);
-                            CBC(1, &msg[9]);
-                            break;
-                        }
-                        else {
-                            printf("Não compreendi sua resposta. Por favor, digite novamente\n");
-                            validAnswer = 0;
-                        }
-                        if (validAnswer == 1) {
-                            break;
-                        }
-                    }
-                }
-                else if (strcmp(answer, "2") == 0) {
-                    clear();
-                    CBC(1, &msg[8]);
-                    clear();
-                    return 1;
-                }
-                else {
-                    printf("Não compreendi sua resposta. Por favor, digite novamente\n");
-                    validAnswer = 0;
-                }
-                if (validAnswer == 1) {
-                    break;
-                }
-            }
-        }
-        else {
-            printf("Não compreendi sua resposta. Por favor, digite novamente\n");
-            validAnswer = 0;
-        }
-        if (validAnswer == 1) {
-            break;
-        }
-    }
-    memset(answer, 0, sizeof(answer));
-    // Encerrando a apresentação
-    clear();
-    waitingMoment();
-
-    // Apresentando a interação
-    char introducing[100];
-    sprintf(introducing, "Olá %s! Que bom que você chegou até aqui!\nVamos começar com uma pequena apresentação sobre o projeto!", displayName);
-    CaracterByCaracter(introducing);
-    sleep(1);
-    clear();
-    CBC(3, &msg[10]);
-    sleep(1);
-    // Encerrando a apresentação da interação
-    clear();
-    waitingMoment();
-
-    // Painel principal (config)
-    CBC(2, &msg[13]);
-    printf("%s: ", displayName);
-    scanf("%s", answer);
-    if (strcmp(answer, "1") == 0) {
-        // Alterar nome
-        clear();
-    }
-    if (strcmp(answer, "2") == 0) {
-        // Alterar borda
-        clear();
-    }
-    if (strcmp(answer, "3") == 0) {
-        // Sobre as personalizações
-        clear();
-        CBC(3, &msg[15]);
-    }
-}
-
-// Funções adicionadas
+// Prototypes
 void CaracterByCaracter(char message[]) {
     for (int i = 0; i < strlen(message); i++) {
         printf("%c", message[i]);
@@ -220,10 +95,137 @@ void waitingMoment() {
             printf("\r%s", waiting);
         }
     }
-    clear();
+    cls();
 }
 
-void clear() {
+void cls() {
     usleep(200000);
     system("cls");
+}
+
+int main() {
+    system("cls");
+    // Iniciando a apresentação
+    CBC(2, msg);
+
+    // Usuário define seu nome de exibição.
+    char displayName[100];
+    nameAndRename(displayName);
+    cls();
+    char greeting[100];
+    sprintf(greeting,"Olá, %s! ", displayName);
+    CaracterByCaracter(greeting);
+    CBC(1, &msg[4]);
+
+    while (1) {
+        printf("%s: ", displayName);
+        scanf("%99s", answer);
+        validAnswer = 1;
+
+        // Alternativas escolhidas pelo usuário.
+        if (strcasecmp(answer, "sim") == 0 || strcasecmp(answer, "s") == 0) {
+            cls();
+            CBC(1, &msg[5]);
+            break;
+        }
+        else if (strcasecmp(answer, "não") == 0 || strcasecmp(answer, "n") == 0) {
+            cls();
+            memset(answer, 0, sizeof(answer));
+            CBC(2, &msg[6]);
+            while (1) {
+                validAnswer = 1;
+                printf("%s: ", displayName);
+                scanf("%99s", answer);
+
+                // Usuário redefinindo seu nome de exibição.
+                if (strcmp(answer, "1") == 0) {
+                    cls();
+                    nameAndRename(displayName);
+                    cls();
+                    char resetName[100];
+                    sprintf(resetName, "Você redefiniu seu nome para \"%s\".\nDeseja continuar ou redefinir novamente?\n1. Continuar\n2. Redefinir novamente\n", displayName);
+                    CaracterByCaracter(resetName);
+                    memset(answer, 0, sizeof(answer));
+                    while (1) {
+                        validAnswer = 1;
+                        printf("%s: ", displayName);
+                        scanf("%99s", answer);
+                        if (strcasecmp(answer, "1") == 0) {
+                            cls();
+                            CBC(1, &msg[9]);
+                            break;
+                        }
+                        else if (strcasecmp(answer, "2") == 0) {
+                            cls();
+                            nameAndRename(displayName);
+                            CBC(1, &msg[9]);
+                            break;
+                        }
+                        else {
+                            printf("Não compreendi sua resposta. Por favor, digite novamente\n");
+                            validAnswer = 0;
+                        }
+                        if (validAnswer == 1) {
+                            break;
+                        }
+                    }
+                }
+                else if (strcmp(answer, "2") == 0) {
+                    cls();
+                    CBC(1, &msg[8]);
+                    cls();
+                    return 1;
+                }
+                else {
+                    printf("Não compreendi sua resposta. Por favor, digite novamente\n");
+                    validAnswer = 0;
+                }
+                if (validAnswer == 1) {
+                    break;
+                }
+            }
+        }
+        else {
+            printf("Não compreendi sua resposta. Por favor, digite novamente\n");
+            validAnswer = 0;
+        }
+        if (validAnswer == 1) {
+            break;
+        }
+    }
+    memset(answer, 0, sizeof(answer));
+    // Encerrando a apresentação
+    cls();
+    waitingMoment();
+
+    // Apresentando a interação
+    char introducing[100];
+    sprintf(introducing, "Olá %s! Que bom que você chegou até aqui!\nVamos começar com uma pequena apresentação sobre o projeto!", displayName);
+    CaracterByCaracter(introducing);
+    sleep(1);
+    cls();
+    CBC(3, &msg[10]);
+    sleep(1);
+    // Encerrando a apresentação da interação
+    cls();
+    waitingMoment();
+
+    // Painel principal (config)
+    
+    CBC(2, &msg[13]);
+    printf("%s: ", displayName);
+    scanf("%s", answer);
+    if (strcmp(answer, "1") == 0) {
+        // Alterar nome
+        cls();
+    }
+    if (strcmp(answer, "2") == 0) {
+        // Alterar borda
+        cls();
+    }
+    if (strcmp(answer, "3") == 0) {
+        // Sobre as personalizações
+        cls();
+        CBC(3, &msg[15]);
+    }
 }
